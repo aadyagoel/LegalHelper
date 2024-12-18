@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice, Image, and PDF Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            background: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        header {
+            background: #007bff;
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        main {
+            padding: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="file"], button {
+            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .response-section {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .response-section h2 {
+            font-size: 20px;
+            color: #333;
+        }
+        .response-section p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+        }
+        .response-section audio {
+            margin-top: 10px;
+            width: 100%;
+        }
+        .duplicate-message {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff4e5;
+            border-left: 5px solid #ffc107;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .duplicate-message p {
+            margin: 0;
+            color: #856404;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Legal Consultant</h1>
+        </header>
+        <main>
+            <form method="POST" enctype="multipart/form-data">
+                <label for="user_input">Type your query in English or Hindi:</label>
+                <input type="text" id="user_input" name="user_input" placeholder="Enter your query here">
+
+                <label for="document_image">Upload an Image of a Document:</label>
+                <input type="file" id="document_image" name="document_image" accept="image/*">
+
+                <label for="document_pdf">Upload a PDF Document:</label>
+                <input type="file" id="document_pdf" name="document_pdf" accept="application/pdf">
+
+                <label for="audio_input">Upload an Audio File (Hindi Speech):</label>
+                <input type="file" id="audio_input" name="audio_input" accept="audio/*">
+
+                <button type="submit">Submit</button>
+            </form>
+
+            {% if duplicate_message %}
+            <div class="duplicate-message">
+                <p>{{ duplicate_message }}</p>
+            </div>
+            {% endif %}
+
+            {% if response_text %}
+            <div class="response-section">
+                <h2>Response:</h2>
+                <p>{{ response_text }}</p>
+                {% if audio_file %}
+                <h3>Listen to the Response:</h3>
+                <audio controls>
+                    <source src="{{ audio_file }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                {% endif %}
+            </div>
+            {% endif %}
+        </main>
+    </div>
+</body>
+</html>
